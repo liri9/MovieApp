@@ -102,7 +102,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
-//            AppManager.getInstance().setLoggedIn(user); todo
+
+            //AppManager.getInstance().setLoggedIn(user);
             MyRTFB.saveNewUser(user);
         } else {
             Log.d("faillll", " firebase failed!!!");
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 //        for (Movie movie:allMovies){
 //            movieRef.child(movie.getName()).setValue(movie);
 //        }
-        startActivity(new Intent(LoginActivity.this, TryActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
     }
 
@@ -172,6 +173,7 @@ public class LoginActivity extends AppCompatActivity {
                 registerUser();
             } else {
                 Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
+                AppManager.getInstance().setLoggedIn(user);
                 openApp();
             }
         });

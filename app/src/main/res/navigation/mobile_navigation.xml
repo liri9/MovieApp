@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.example.movieapp.ui.home.HomeFragment"
+        android:name="com.example.movieapp.fragments.HomeFragment"
         android:label="Profile"
         tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.movieapp.ui.profile.ProfileFragment"
+        android:name="com.example.movieapp.fragments.ProfileFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/navigation_sessions"
-        android:name="com.example.movieapp.ui.sessions.SessionsFragment"
+        android:name="com.example.movieapp.fragments.SessionsFragment"
         android:label="Sessions"
         tools:layout="@layout/fragment_sessions" />
 </navigation>
