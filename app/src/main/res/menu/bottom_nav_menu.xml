@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_profile"
         android:icon="@drawable/baseline_account_circle_24"
         android:title="Profile" />
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="Home" />
 
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_sessions"
         android:icon="@drawable/baseline_auto_awesome_motion_24"
         android:title="Sessions" />
 

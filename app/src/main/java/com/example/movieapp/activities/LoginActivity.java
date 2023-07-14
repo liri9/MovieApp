@@ -10,8 +10,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.movieapp.DBManager;
+import com.example.movieapp.init.AppManager;
+import com.example.movieapp.init.MyApp;
 import com.example.movieapp.init.MyRTFB;
 import com.example.movieapp.R;
+import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.User;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -23,18 +27,14 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity {
-
-//    private MaterialButton login_BTN_verify, login_BTN_generate;
-//    private EditText login_EDT_phoneNum, login_EDT_otp;
-//    private AppManager appManager;
-//    private FirebaseAuth mAuth;
-//    private String mVerificationId;
 
     private MaterialButton register_BTN;
     private EditText register_EDT_name;
@@ -102,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
             }
+//            AppManager.getInstance().setLoggedIn(user); todo
             MyRTFB.saveNewUser(user);
         } else {
             Log.d("faillll", " firebase failed!!!");
@@ -145,32 +146,33 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
 
+
+        signInLauncher.launch(signInIntent);
+    }
+
+    private void openApp() {
 //        FirebaseDatabase db = FirebaseDatabase.getInstance();
 //        DatabaseReference movieRef = db.getReference("MOVIES");
 //        ArrayList<Movie> allMovies = DBManager.allMovies();
 //        for (Movie movie:allMovies){
 //            movieRef.child(movie.getName()).setValue(movie);
 //        }
-        signInLauncher.launch(signInIntent);
-    }
-
-    private void openApp() {
-
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        startActivity(new Intent(LoginActivity.this, TryActivity.class));
         finish();
     }
 
     private void checkIfUserInMyServer() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        MyRTFB.getUserData(firebaseUser.getUid(), new MyRTFB.CB_User() {
-            @Override
-            public void data(User user) {
-                if (user == null || user.getUserName().isEmpty()) {
-                    registerUser();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
-                    openApp();
-                }
+        assert firebaseUser != null;
+        MyRTFB.getUserData(firebaseUser.getUid(), user -> {
+            if (user == null) {
+                registerUser();
+            } else if (user.getName() == null || user.getUserName() == null || user.getName().isEmpty() || user.getUserName().isEmpty()) {
+                Log.d("Username and name is empty", "empty f");
+                registerUser();
+            } else {
+                Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
+                openApp();
             }
         });
     }

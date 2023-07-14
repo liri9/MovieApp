@@ -33,7 +33,6 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:src="@drawable/baseline_account_circle_24"
-
                     android:tint="@color/pearl" />
 
                 <com.google.android.material.textview.MaterialTextView
