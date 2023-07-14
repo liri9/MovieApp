@@ -10,28 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.movieapp.databinding.FragmentNotificationsBinding;
+//import com.example.movieapp.databinding.FragmentNotificationsBinding;
 
 public class NotificationsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+//    private FragmentNotificationsBinding binding;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        NotificationsViewModel notificationsViewModel =
-                new ViewModelProvider(this).get(NotificationsViewModel.class);
-
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        final TextView textView = binding.textNotifications;
-        notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
-        return root;
-    }
+//    public View onCreateView(@NonNull LayoutInflater inflater,
+//                             ViewGroup container, Bundle savedInstanceState) {
+//        NotificationsViewModel notificationsViewModel =
+//                new ViewModelProvider(this).get(NotificationsViewModel.class);
+//
+//        //binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+//     //   View root = binding.getRoot();
+//
+//       // final TextView textView = binding.textNotifications;
+//      //  notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+//       // return root;
+//    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding = null;
+       // binding = null;
     }
 }

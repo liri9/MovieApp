@@ -9,6 +9,9 @@ public class User {
     private String id;
     private ArrayList<Categories> likedCategories;
 
+    public User() {
+        likedCategories= new ArrayList<Categories>();
+    }
     public String getId() {
         return id;
     }
@@ -25,8 +28,9 @@ public class User {
         return userName;
     }
 
-    public void setUserName(String userName) {
+    public User setUserName(String userName) {
         this.userName = userName;
+        return this;
     }
 
     public String getName() {
@@ -47,6 +51,22 @@ public class User {
         this.phone = phone;
         return this;
 
+    }
+    public void addCategory (String category){
+
+        likedCategories.add(getCategoryFromString(category));
+    }
+    public void removeCategory (String category){
+        likedCategories.remove(getCategoryFromString(category));
+
+    }
+    public Categories getCategoryFromString(String categoryName) {
+        for (Categories category : Categories.values()) {
+            if (category.name().equalsIgnoreCase(categoryName)) {
+                return category;
+            }
+        }
+        return null; // Category not found
     }
 
     public ArrayList<Categories> getFavCategories() {

@@ -1,5 +1,6 @@
-package com.example.movieapp;
+package com.example.movieapp.init;
 
+import com.example.movieapp.DBManager;
 import com.example.movieapp.models.User;
 
 public class AppManager {

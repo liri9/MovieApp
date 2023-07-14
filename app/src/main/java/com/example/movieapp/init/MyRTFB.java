@@ -1,4 +1,4 @@
-package com.example.movieapp;
+package com.example.movieapp.init;
 
 import com.example.movieapp.models.User;
 
@@ -57,58 +57,6 @@ public class MyRTFB {
         });
     }
 
-    private static void getGamesFromServer(CB_GamesArray cb_gamesArray) {
-        if (cb_gamesArray == null) {
-            return;
-        }
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference gamesRef = database.getReference("GAMES");
-
-        gamesRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                ArrayList<Game> games = new ArrayList<>();
-//                for (DataSnapshot child : snapshot.getChildren()) {
-//                    Game game = child.getValue(Game.class);
-//                    games.add(game);
-//                }
-//                cb_gamesArray.data(games);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("pttt", "onCancelled(" + error.getMessage() + ")");
-//                cb_gamesArray.data(null);
-            }
-        });
-    }
-
-    public static void getGamesWithLikes(String userId, CB_GamesArray cb_gamesArray) {
-        getUserData(userId, new CB_User() {
-            @Override
-            public void data(User user) {
-                if (user == null) {
-                    return;
-                }
-
-//                getGamesFromServer(new CB_GamesArray() {
-//                    @Override
-//                    public void data(ArrayList<Game> games) {
-//                        if (games == null) {
-//                            cb_gamesArray.data(null);
-//                            return;
-//                        }
-//                        for (Game game : games) {
-//                            boolean isLikedByCurrentUser = user.getLikes().getOrDefault(game.getTitle(), false);
-//                            game.setLiked(isLikedByCurrentUser);
-//                        }
-//                        cb_gamesArray.data(games);
-//                    }
-//                });
-            }
-        });
-    }
 
     public static void updateGameLike(String id, boolean value) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();

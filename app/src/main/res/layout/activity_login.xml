@@ -43,24 +43,28 @@
                 android:id="@+id/chip1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="COMEDY" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="DRAMA" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="ACTION" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="ANIMATION" />
 
 
@@ -68,59 +72,68 @@
                 android:id="@+id/chip5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:checkable="true"
                 android:text="MUSICAL" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="HORROR" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="DOCUMENTARY" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="THRILLER" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="FANTASY" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="ROMANCE" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="MYSTERY" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip12"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="SCI FI" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip13"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="CRIME" />
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checkable="true"
                 android:text="ADVENTURE" />
         </com.google.android.material.chip.ChipGroup>
 

@@ -1,7 +1,8 @@
-package com.example.movieapp;
+package com.example.movieapp.activities;
 
 import android.os.Bundle;
 
+import com.example.movieapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;

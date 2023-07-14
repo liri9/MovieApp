@@ -1,4 +1,4 @@
-package com.example.movieapp;
+package com.example.movieapp.init;
 
 import android.content.Context;
 import android.os.Build;
