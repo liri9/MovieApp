@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "695404544189",
+    "firebase_url": "https://movie-app-1355c-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "movie-app-1355c",
     "storage_bucket": "movie-app-1355c.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "695404544189-fugca9ais2e14u4ghhb2pe4ki48rmp78.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movieapp",
+            "certificate_hash": "bbbf72635b71cd07276ab95e84a822f14257ece7"
+          }
+        },
         {
           "client_id": "695404544189-5m7uju7dhhjhprkg945j2ki8drjsebec.apps.googleusercontent.com",
           "client_type": 3

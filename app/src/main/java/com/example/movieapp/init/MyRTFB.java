@@ -33,7 +33,7 @@ public class MyRTFB {
     public static void saveNewUser(User user) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("USERS");
-        ref.child(user.getId()).setValue(user);
+        ref.child(user.getId()).setValue(user.userAsHashmap());
     }
 
     public static void getUserData(String id, CB_User cb_user) {

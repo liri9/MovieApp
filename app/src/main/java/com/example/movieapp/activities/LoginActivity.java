@@ -26,6 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private ArrayList<Chip> chipsCategories;
     private final int NUM_OF_CHIPS = 14;
     private ChipGroup chipGroup;
+    private boolean userRegistered = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                registerUser();
                 openApp();
             }
         });
@@ -95,12 +98,13 @@ public class LoginActivity extends AppCompatActivity {
                     .setUserName(register_EDT_userName.getText().toString());
             for (int i = 0; i < NUM_OF_CHIPS; i++) {
                 if (chipsCategories.get(i).isChecked()) {
-                    user.addCategory(chipsCategories.get(i).toString());
+                    user.addCategory(chipsCategories.get(i).getText().toString());
                 }
+
             }
             MyRTFB.saveNewUser(user);
         } else {
-            Log.d("faillll", "liri firebase failed!!!");
+            Log.d("faillll", " firebase failed!!!");
         }
     }
 
@@ -125,18 +129,21 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     showSnackbar("Unknown error");
-                    Log.e("pttt", "Sign-in error: ", response.getError());
                 }
             });
 
 
     private void login() {
-        Intent signInIntent = AuthUI.getInstance()
+        final Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setAvailableProviders(Arrays.asList(
+                .setIsSmartLockEnabled(false)
+                .setAlwaysShowSignInMethodScreen(true)
+                .setAvailableProviders(Collections.singletonList(
                         new AuthUI.IdpConfig.PhoneBuilder().build()
                 ))
+                .setLogo(R.mipmap.ic_launcher)
                 .build();
+
 
 //        FirebaseDatabase db = FirebaseDatabase.getInstance();
 //        DatabaseReference movieRef = db.getReference("MOVIES");
@@ -158,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
         MyRTFB.getUserData(firebaseUser.getUid(), new MyRTFB.CB_User() {
             @Override
             public void data(User user) {
-                if (user == null) {
+                if (user == null || user.getUserName().isEmpty()) {
                     registerUser();
                 } else {
                     Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
