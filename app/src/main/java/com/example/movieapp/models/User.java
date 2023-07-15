@@ -11,6 +11,7 @@ public class User {
     private String phone;
     private String id;
     private final ArrayList<Categories> likedCategories = new ArrayList<Categories>();
+    private final ArrayList<Group> groups = new ArrayList<>(); //todo
 
     public User() {
     }
@@ -49,7 +50,6 @@ public class User {
         return this;
     }
 
-    private ArrayList<Group> groups;
 
     public String getUserName() {
         return userName;
@@ -109,7 +109,11 @@ public class User {
         return groups;
     }
 
-    public void setGroups(ArrayList<Group> groups) {
-        this.groups = groups;
+    public void addGroup(Group group) {
+        groups.add(group);
     }
+
+//    public void setGroups(ArrayList<Group> groups) {
+//        this.groups = groups;
+//    }
 }

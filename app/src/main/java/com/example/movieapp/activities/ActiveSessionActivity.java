@@ -1,8 +1,5 @@
 package com.example.movieapp.activities;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,12 +7,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.movieapp.DBManager;
-import com.example.movieapp.init.AppManager;
-import com.example.movieapp.init.MyApp;
-import com.example.movieapp.init.MyRTFB;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.movieapp.R;
-import com.example.movieapp.models.Movie;
+import com.example.movieapp.init.AppManager;
+import com.example.movieapp.init.MyRTFB;
 import com.example.movieapp.models.User;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -27,14 +24,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
-public class LoginActivity extends AppCompatActivity {
+public class ActiveSessionActivity extends AppCompatActivity {
 
     private MaterialButton register_BTN;
     private EditText register_EDT_name;
@@ -47,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_active_session);
         findViews();
         initViews();
 
@@ -158,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
 //        for (Movie movie:allMovies){
 //            movieRef.child(movie.getName()).setValue(movie);
 //        }
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        startActivity(new Intent(ActiveSessionActivity.this, MainActivity.class));
         finish();
     }
 
@@ -172,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.d("Username and name is empty", "empty f");
                 registerUser();
             } else {
-                Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(ActiveSessionActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
                 AppManager.getInstance().setLoggedIn(user);
                 openApp();
             }

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/home_fragment"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -43,6 +42,7 @@
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
+
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -55,29 +55,80 @@
                 android:layout_width="match_parent"
                 android:layout_height="380dp"
                 android:elevation="10dp"
-                app:cardCornerRadius="10dp"
-                >
+                app:cardCornerRadius="10dp">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/tasks_LST_tasks"
+                    android:id="@+id/main_LST_groups"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:listitem="@layout/group_list_fragment" />
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_BTN_addGroup"
                 android:layout_width="wrap_content"
-                android:layout_gravity="end|center_vertical"
                 android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
                 android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/midnight"
-                app:iconGravity="textEnd"
                 app:cornerRadius="90dp"
-                app:icon="@drawable/baseline_group_add_24"/>
+                app:icon="@drawable/baseline_group_add_24"
+                app:iconGravity="textEnd" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/main_CRD_newGroup"
+        android:layout_width="300dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:cardCornerRadius="30dp"
+        android:visibility="invisible"
+        app:cardElevation="10dp">
+
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="30dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_BTN_exit"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/midnight"
+                app:icon="@drawable/ic_x" />
+
+            <EditText
+                android:id="@+id/main_EDT_grpName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="Group Name" />
+
+            <EditText
+                android:id="@+id/main_EDT_userName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="User Name" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/main_BTN_addUser"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="10dp"
+                app:cornerRadius="90dp"
+                app:icon="@drawable/baseline_add_24"
+                app:iconGravity="end|start" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
 
 
 </RelativeLayout>
