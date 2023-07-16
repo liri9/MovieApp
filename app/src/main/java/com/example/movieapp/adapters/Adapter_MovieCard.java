@@ -128,12 +128,14 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
         public void updateFBLiked() {
             Boolean bool = currentSess.addLike(AppManager.getInstance().getLoggedIn(), getItem(currentPosition));
             if (bool) {
+                movie_BTN_no.setEnabled(false);
+                movie_BTN_yes.setEnabled(false);
                 match(getItem(currentPosition));
             }
+
         }
 
         private void match(Movie item) {
-            Log.d("hello", "this is 1");
             if (listener != null) {
                 listener.onMatch(item);
             }

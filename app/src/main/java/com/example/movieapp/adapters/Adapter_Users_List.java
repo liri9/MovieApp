@@ -21,7 +21,11 @@ public class Adapter_Users_List extends ArrayAdapter<User> {
         super(context, resource, items);
         this.mContext = context;
     }
-
+    public void updateData(List<User> items) {
+        clear();
+        addAll(items);
+        notifyDataSetChanged();
+    }
 
     @SuppressLint("InflateParams")
     public View getView(int position, View convertView, ViewGroup parent) {

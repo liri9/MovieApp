@@ -35,7 +35,6 @@ public class AppManager {
     }
 
     public User getLoggedIn() {
-        Log.d("this is 3","hi");
 
         return loggedIn;
     }

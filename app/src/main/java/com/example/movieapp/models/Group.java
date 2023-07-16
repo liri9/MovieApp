@@ -86,12 +86,9 @@ public class Group {
     }
 
     public Group setUsersToDB(ArrayList<String> names) {
-        Log.d("user adding by name",names.toString());
         for (String userName : names) {
             MyRTFB.getUserByUserName(userName, user -> {
-                Log.d("user adding by name 11",user.userAsHashmap().toString());
                 if (user != null) {
-                    Log.d("user adding by name 12",user.userAsHashmap().toString());
                     addUser(user);
                     user.addGroupToFB(this);
                     updateGroupInFB();
@@ -123,7 +120,6 @@ public class Group {
         ArrayList<String> ids = new ArrayList<String>();
         for (User user1 : users) {
             ids.add(user1.getId());
-            Log.d("users id ", user1.getId());
         }
         groupAsHashmap.put("name", name);
         groupAsHashmap.put("id", id);

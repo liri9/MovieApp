@@ -38,7 +38,9 @@ public class Fragment_List extends Fragment {
     }
 
     private void initViews() {
+
         allUsers  = callback_list.getGroupUsers();
+
         if (allUsers != null) {
             Adapter_Users_List adapter = new Adapter_Users_List(getActivity(),
                     android.R.layout.simple_list_item_1, allUsers);
@@ -51,6 +53,19 @@ public class Fragment_List extends Fragment {
                 User user = (User) adapterView.getItemAtPosition(i);
             }
         });
+        allUsers = callback_list.getGroupUsers();
+        if (allUsers != null) {
+            Adapter_Users_List adapter = new Adapter_Users_List(getActivity(),
+                    android.R.layout.simple_list_item_1, allUsers);
+            fragmentList_LIST_Users.setAdapter(adapter);
+        }
+//        List<User> updatedUsers = callback_list.getGroupUsers();
+//        if (updatedUsers != null) {
+//            Adapter_Users_List adapter = new Adapter_Users_List(getActivity(),
+//                    android.R.layout.simple_list_item_1, allUsers);
+//
+//            adapter.updateData(updatedUsers);
+//        }
     }
 
 

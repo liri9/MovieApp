@@ -53,11 +53,6 @@ public class MyRTFB {
         void data(Group group);
     }
 
-    public static void setGameLikePerUser(String userId, String gameId, boolean value) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("USERS");
-        ref.child(userId).child("likes").child(gameId).setValue(value);
-    }
 
     //    public ArrayList<Group> getGroupsPerUser(User user) {
 //        //todo
@@ -138,7 +133,6 @@ public class MyRTFB {
                             boolean check= user.getUserName().trim().equals(userName.trim());
 //                            String lettersBeforeSpace = userName.substring(0, userName.indexOf(" "));
                             if (check) {
-                                Log.d("success???", user.userAsHashmap().toString());
 
                                 cb_user.data(user);
                             }
@@ -266,7 +260,6 @@ public class MyRTFB {
         sessRef.child("LIKED").setValue(likedMovies);
 
         groupRef.setValue(movieName);
-        Log.d("hello", "this is 8");
 
     }
 

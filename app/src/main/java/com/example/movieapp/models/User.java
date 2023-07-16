@@ -118,8 +118,6 @@ public class User {
     }
 
     public void addGroupToFB(Group group) {
-        Log.d("user adding by name 1 2",userName );
-
         groups.add(group);
         groupsID.add(group.getId());
         MyRTFB.setGroupsForUser(groupsID,this);
@@ -129,7 +127,6 @@ public class User {
 //    }
 
     public void updateFB() {
-        Log.d("user dits", userAsHashmap().toString());
         MyRTFB.saveNewUser(this);
     }
 

@@ -120,21 +120,18 @@ public class Session {
     }
 
     public Boolean checkMatch(String name) {
-        Boolean key = getKeyByValue(likedMovies, size,name);
+        Boolean key = getKeyByValue(likedMovies, 2,name);
         if (key) {
             matches.add(name);
             updateMatchFB();
             return true;
-        } else return null;
+        } else return false;
     }
 
     private void updateMatchFB() {
         MyRTFB.updateMatch(matches, id, group.getId());
     }
 
-    private void finishSession() {
-        //todo
-    }
 
     public static Boolean getKeyByValue(HashMap<String, Integer> hashMap, int x, String name) {
         for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
@@ -146,6 +143,7 @@ public class Session {
     }
 
     public Boolean addLike(User user, Movie movie) {
+
         if (likedMovies != null) {
             if (!likedMovies.containsKey(movie.getName())) {
                 likedMovies.put(movie.getName(), 1);
@@ -155,6 +153,7 @@ public class Session {
             }
         } else likedMovies.put(movie.getName(), 1);
         MyRTFB.addLikeToMovie(group.getId(), user.getId(), movie.getName(), this, likedMovies);
+
         return checkMatch(movie.getName());
     }
 
@@ -170,9 +169,6 @@ public class Session {
         sessionAsHashmap.put("USERS", users);
         sessionAsHashmap.put("LIKED", likedMovies);
         sessionAsHashmap.put("isDone", false);
-
-        Log.d("users in here", userList.toString());
-        Log.d("the hashhh ", sessionAsHashmap.toString());
         return sessionAsHashmap;
     }
 
