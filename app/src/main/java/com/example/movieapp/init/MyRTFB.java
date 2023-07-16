@@ -1,8 +1,8 @@
 package com.example.movieapp.init;
 
-import com.example.movieapp.activities.ActiveSessionActivity;
 import com.example.movieapp.models.Group;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.Session;
 import com.example.movieapp.models.User;
 
 import android.util.Log;
@@ -14,11 +14,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
 public class MyRTFB {
+
+
 
     public interface CB_MoviesArray {
         void data(ArrayList<Movie> movie);
@@ -94,6 +95,7 @@ public class MyRTFB {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("GROUPS");
         ref.child(group.getId()).setValue(group.groupAsHashmap());
+
     }
 
     public static void saveNewUserToGroup(User user, Group group) {
@@ -243,5 +245,12 @@ public class MyRTFB {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference gamesRef = database.getReference("GAMES");
         gamesRef.child(id).child("liked").setValue(value);
+    }
+
+
+    public static void saveNewSession(Group group, Session currentSess) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference groupRef = database.getReference("GROUPS").child(group.getId()).child("SESSIONS");
+
     }
 }

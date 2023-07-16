@@ -104,12 +104,6 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
                     notifyItemRemoved(currentPosition);
                     notifyItemChanged(currentPosition);
                 }
-//                if (currentPosition < getItemCount() - 1) {
-//                    currentPosition++;
-//                    notifyDataSetChanged();
-//                }
-                //                Intent intent = new Intent(view.getContext(), ChatActivity.class);
-//                view.getContext().startActivity(intent);
             });
             movie_BTN_yes.setOnClickListener(view -> {
                 if (currentPosition >= 0 && currentPosition < movies.size()) {
@@ -117,8 +111,12 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
                     notifyItemRemoved(currentPosition);
                     notifyItemChanged(currentPosition);
                 }
-
             });
         }
+
+        public void updateFBLiked(){
+
+        }
+
     }
 }

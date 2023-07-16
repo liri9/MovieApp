@@ -1,12 +1,16 @@
 package com.example.movieapp.init;
 
 import com.example.movieapp.DBManager;
+import com.example.movieapp.models.Group;
+import com.example.movieapp.models.Session;
 import com.example.movieapp.models.User;
 
 public class AppManager {
     private static AppManager appManager = null;
     private DBManager dbManager;
     private User loggedIn;
+    private Group curentGroup;
+    private Session currentSession;
 
 
     private AppManager() {
@@ -34,5 +38,21 @@ public class AppManager {
 
     public void setLoggedIn(User loggedIn) {
         this.loggedIn = loggedIn;
+    }
+
+    public Group getCurentGroup() {
+        return curentGroup;
+    }
+
+    public void setCurentGroup(Group curentGroup) {
+        this.curentGroup = curentGroup;
+    }
+
+    public Session getCurrentSession() {
+        return currentSession;
+    }
+
+    public void setCurrentSession(Session currentSession) {
+        this.currentSession = currentSession;
     }
 }

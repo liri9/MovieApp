@@ -12,46 +12,52 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 
+import com.example.movieapp.R;
+import com.example.movieapp.adapters.Adapter_Users_List;
+import com.example.movieapp.models.User;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Fragment_List extends Fragment {
-    private ListView fragmentList_LIST_Scores;
-//    private ScoreActivity.Callback_List callback_list;
+    private ListView fragmentList_LIST_Users;
+    private HomeFragment.Callback_List callback_list;
+    private ArrayList<User> allUsers;
 
 
-//    public void setCallback_list(ScoreActivity.Callback_List callback_list) {
-//        this.callback_list = callback_list;
-//    }
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        findViews(view);
+        initViews();
+        return view;
+    }
+
+    public void setCallback_list(HomeFragment.Callback_List callback_list) {
+        this.callback_list = callback_list;
+    }
 
     private void initViews() {
-//        ListOfScoreRecords data = callback_list.getTopTenScoreRecords();
-//        if (data != null) {
-//            List<ScoreRecord> scoreRecords = data.getListOfScoreRecords();
-//            ScoreRecordAdapter adapter = new ScoreRecordAdapter(getActivity(), android.R.layout.simple_list_item_1, scoreRecords);
-//            fragmentList_LIST_Scores.setAdapter(adapter);
-//
-//        }
-//        fragmentList_LIST_Scores.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                ScoreRecord scoreRecord = (ScoreRecord) adapterView.getItemAtPosition(i);
-//                LatLng location = new LatLng(scoreRecord.getLatitude(), scoreRecord.getLongitude());
-//                ((ScoreActivity) getActivity()).zoomToLocation(location);
-//            }
-//        });
+        allUsers  = callback_list.getGroupUsers();
+        if (allUsers != null) {
+            Adapter_Users_List adapter = new Adapter_Users_List(getActivity(),
+                    android.R.layout.simple_list_item_1, allUsers);
+            fragmentList_LIST_Users.setAdapter(adapter);
+
+        }
+        fragmentList_LIST_Users.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                User user = (User) adapterView.getItemAtPosition(i);
+            }
+        });
     }
 
 
-//    private void findViews(View view) {
-//        fragmentList_LIST_Scores = view.findViewById(R.id.fragmentList_LIST_Scores);
-//    }
-//
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-//                             @Nullable Bundle savedInstanceState) {
-//        View view = inflater.inflate(R.layout.fragment_list, container, false);
-//        findViews(view);
-//        initViews();
-//        return view;
-//    }
+    private void findViews(View view) {
+        fragmentList_LIST_Users = view.findViewById(R.id.fragmentList_LIST_Users);
+    }
+
+
 
 }

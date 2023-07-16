@@ -158,6 +158,14 @@ public class User {
         this.groups= groups;
     }
 
+    public void removeFromGroup(Group group) {
+        //todo
+    }
+
+    public void addGroup(Group group) {
+        groups.add(group);
+    }
+
 //    public void setGroups(ArrayList<Group> groups) {
 //        this.groups = groups;
 //    }

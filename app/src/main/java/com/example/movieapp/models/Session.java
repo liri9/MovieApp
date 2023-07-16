@@ -1,27 +1,32 @@
 package com.example.movieapp.models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class Session {
 
-    private int id;
+    private String id;
     private Group group;
     private int size;
     HashMap <Movie,Integer> movies = new HashMap<Movie, Integer>();
-    ArrayList <ArrayList<User>> userList = new ArrayList<>();
+    ArrayList<User> userList = new ArrayList<>();
 
     public Session(Group group) {
+        id= UUID.randomUUID().toString();
         this.group = group;
         size = group.getSize();
         setUserList();
     }
-
-    public int getId() {
+    public Session() {
+    }
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -34,12 +39,34 @@ public class Session {
         //todo
     }
 
-    public ArrayList<ArrayList<User>> getUserList() {
+    public ArrayList<User> getUserList() {
         return userList;
     }
 
     public void setUserList() {
-        this.group.getUsers();
-        // todo
+        this.userList = group.getUsers();
+    }
+
+    public HashMap sessionAsHashMap(){
+
+        HashMap<String, Object> sessionAsHashmap = new HashMap<String, Object>();
+        HashMap<String, Object> users = new HashMap<String, Object>();
+        for (User user:userList){
+            users.put(user.getId(), )
+        }
+        HashMap<String, Object> likedMovies = new HashMap<String, Object>();
+        users.put()
+        ArrayList<String> ids = new ArrayList<String>();
+        for (User user1 : users) {
+            ids.add(user1.getId());
+            Log.d("users id ", user1.getId());
+        }
+
+        sessionAsHashmap.put("id", id);
+        sessionAsHashmap.put("USERS",users);
+
+        groupAsHashmap.put("userIDs", ids);
+
+        return sessionAsHashmap;
     }
 }

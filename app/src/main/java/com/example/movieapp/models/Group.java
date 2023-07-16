@@ -1,7 +1,9 @@
 package com.example.movieapp.models;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.movieapp.activities.RegistrationActivity;
 import com.example.movieapp.init.AppManager;
 import com.example.movieapp.init.MyRTFB;
 
@@ -13,9 +15,27 @@ public class Group {
     private String id;
     private String name;
     private ArrayList<User> users=new ArrayList<>();;
-    private ArrayList<String> usersIds = new ArrayList<>();
+    private ArrayList<String> userIDs = new ArrayList<>();
     private int size;
 
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
+    public ArrayList<String> getUsersIDs() {
+        return userIDs;
+    }
+
+    public void setUserIDs(ArrayList<String> usersIDs) {
+        this.userIDs = usersIDs;
+        for (String id :usersIDs) {
+            MyRTFB.getUserData(id, user -> {
+                if (user !=null){
+                    users.add(user);
+                }
+            });
+        }
+    }
 
     public Group(String name, ArrayList<User> users) {
         this.name = name;
@@ -87,16 +107,15 @@ public class Group {
 
     public void addUser(User user) {
         users.add(user);
-        usersIds.add((user.getId()));
+        userIDs.add((user.getId()));
     }
 
     public void removeUser(User user) {
         users.remove(user);
+        //todo also from db and from ids array
     }
 
     public void updateGroupInFB (){
-        Log.d("user adding by name 1",usersIds.size()+"");
-
         MyRTFB.saveNewGroup(this);
     }
     public HashMap<String, Object> groupAsHashmap() {
@@ -111,7 +130,19 @@ public class Group {
         groupAsHashmap.put("userIDs", ids);
 
         return groupAsHashmap;
+   }
 
-
+   public String toString (){
+       StringBuilder sb = new StringBuilder();
+       sb.append(name);
+       for (User user : users){
+           sb.append(user.getName());
+       }
+       for (String user : userIDs){
+           sb.append("mmmm" +user);
+       }
+       sb.append("mememe :)))");
+       String result = sb.toString();
+    return result;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.movieapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +11,21 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieapp.R;
+import com.example.movieapp.activities.ActiveSessionActivity;
+import com.example.movieapp.activities.MainActivity;
+import com.example.movieapp.activities.RegistrationActivity;
 import com.example.movieapp.adapters.Adapter_Group_List;
 import com.example.movieapp.databinding.FragmentHomeBinding;
 import com.example.movieapp.init.AppManager;
+import com.example.movieapp.init.MyRTFB;
 import com.example.movieapp.models.Group;
+import com.example.movieapp.models.Session;
 import com.example.movieapp.models.User;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -41,6 +49,7 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
     private MaterialTextView mainGroup_LBL_grpName;
 
     private Fragment_List fragment_list;
+    private int currentPosition;
     //users_LST
 
     private ArrayList<Group> myGroups = new ArrayList<>();
@@ -79,7 +88,6 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
     private void setGroupListFromDB(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference usersRef = database.getReference("USERS").child(user.getId()).child("GROUPS");
-        Log.d("myref", usersRef.toString());
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -87,13 +95,16 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
                 for (DataSnapshot snap : snapshot.getChildren()) {
                     String groupId = snap.getValue(String.class);
                     DatabaseReference groupRef = database.getReference("GROUPS").child(groupId);
-                    Log.d("groupref", groupRef.toString());
                     groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Group group = snapshot.getValue(Group.class);
+                            group.setUserIDs((ArrayList<String>)snapshot.child("userIDs").getValue());
+//                            Log.d("hiiiiii",snapshot.child("userIDs").getValue().getClass().toString());
+
                             myGroups.add(group);
-                            Log.d("mygroups1", myGroups.toString());
+                            user.addGroup(group);
+                            Log.d("goupie",group.toString());
                             initList(view);
                         }
 
@@ -103,10 +114,8 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
                         }
 
                     });
-                    Log.d("mygroups2", myGroups.toString());
 
                 }
-                Log.d("mygroups3", myGroups.toString());
 
 //                initList(view);
             }
@@ -141,7 +150,6 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
             Group group = new Group("")
                     .setName(groupName)
                     .setUsersToDB(userNames);
-            Log.d("usernames", userNames.get(0));
             group.updateGroupInFB();
         });
 
@@ -159,7 +167,35 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
         main_CRD_Group.setVisibility(View.VISIBLE);
         Group clickedGroup = myGroups.get(position);
         mainGroup_LBL_grpName.setText(clickedGroup.getName());
+        currentPosition = position;
+        initCardViews();
 
+    }
+
+    private void initCardViews() {
+        fragment_list = new Fragment_List();
+        fragment_list.setCallback_list(callback_list);
+        FragmentManager fragmentManager = getChildFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction
+                .add(R.id.users_LST, fragment_list)
+                .commit();
+
+        mainGroup_BTN_exit.setOnClickListener(v -> {
+            main_CRD_Group.setVisibility(View.INVISIBLE);
+        });
+        mainGroup_BTN_exitGroup.setOnClickListener(v -> {
+            //todo
+            user.removeFromGroup(myGroups.get(currentPosition));
+            myGroups.get(currentPosition).removeUser(user);
+        });
+        mainGroup_BTN_newSession.setOnClickListener(v -> {
+            Session currentSess = new Session(myGroups.get(currentPosition));
+            AppManager.getInstance().setCurentGroup(myGroups.get(currentPosition));
+            AppManager.getInstance().setCurrentSession(currentSess);
+            MyRTFB.saveNewSession (myGroups.get(currentPosition),currentSess);
+            startActivity(new Intent(getActivity(), ActiveSessionActivity.class));
+        });
     }
 
     private void findViews(View view) {
@@ -176,4 +212,16 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
         mainGroup_BTN_exitGroup = view.findViewById(R.id.mainGroup_BTN_exitGroup);
         mainGroup_BTN_newSession = view.findViewById(R.id.mainGroup_BTN_newSession);
     }
+
+    public interface Callback_List {
+        ArrayList<User> getGroupUsers();
+    }
+
+    Callback_List callback_list = new Callback_List() {
+        @Override
+        public ArrayList<User> getGroupUsers() {
+            Log.d("allUsers", myGroups.get(currentPosition).groupAsHashmap().toString());
+            return myGroups.get(currentPosition).getUsers();
+        }
+    };
 }

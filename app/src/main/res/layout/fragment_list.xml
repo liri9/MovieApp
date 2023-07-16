@@ -11,7 +11,9 @@
         android:id="@+id/fragmentList_LIST_Users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@color/darkBlue"
         android:dividerHeight="3dp"
+
         />
 
     <TextView
