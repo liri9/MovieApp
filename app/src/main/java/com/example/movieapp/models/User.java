@@ -1,6 +1,8 @@
 package com.example.movieapp.models;
 
-import org.json.JSONArray;
+import android.util.Log;
+
+import com.example.movieapp.init.MyRTFB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,18 +13,25 @@ public class User {
     private String phone;
     private String id;
     private final ArrayList<Categories> likedCategories = new ArrayList<Categories>();
-    private final ArrayList<Group> groups = new ArrayList<>(); //todo
+    private ArrayList<Group> groups = new ArrayList<>(); //todo
+    private ArrayList<String> groupsID = new ArrayList<>(); //todo
 
     public User() {
     }
 
     public HashMap<String, Object> userAsHashmap() {
         HashMap<String, Object> userAsHashmap = new HashMap<String, Object>();
+        ArrayList<String> allGroups = new ArrayList<String>();
+
+        for (Group group : groups) {
+            allGroups.add(group.getId());
+        }
         userAsHashmap.put("userName", userName);
         userAsHashmap.put("name", name);
         userAsHashmap.put("phone", phone);
         userAsHashmap.put("id", id);
-        userAsHashmap.put("categories",getCategoriesAsString());
+        userAsHashmap.put("categories", getCategoriesAsString());
+        userAsHashmap.put("groups", allGroups);
 
         return userAsHashmap;
     }
@@ -49,7 +58,6 @@ public class User {
         this.id = id;
         return this;
     }
-
 
     public String getUserName() {
         return userName;
@@ -109,8 +117,44 @@ public class User {
         return groups;
     }
 
-    public void addGroup(Group group) {
+    public void addGroupToFB(Group group) {
+
         groups.add(group);
+        groupsID.add(group.getId());
+        MyRTFB.setGroupsForUser(groupsID,this);
+    }
+//    public void addGroupFromFB(Group group) {
+//        groups.add(group);
+//    }
+
+    public void updateFB() {
+        Log.d("user dits", userAsHashmap().toString());
+        MyRTFB.saveNewUser(this);
+    }
+
+    public void getGroupsFromDB() {
+        MyRTFB.getUserGroups(this.id, new MyRTFB.CB_GroupsArray() {
+            @Override
+            public void data(ArrayList<Group> groups) {
+                if (groups != null && !groups.isEmpty()) {
+                    for (Group group : groups) {
+                        MyRTFB.getGroupData(group.getId(), new MyRTFB.CB_Group() {
+                            @Override
+                            public void data(Group detailedGroup) {
+                                if (detailedGroup != null) {
+                                    groups.add(group);
+                                }
+                            }
+                        });
+                        initGroupList(groups);
+                    }
+                }
+            }
+        });
+    }
+
+    private void initGroupList(ArrayList<Group> groups) {
+        this.groups= groups;
     }
 
 //    public void setGroups(ArrayList<Group> groups) {

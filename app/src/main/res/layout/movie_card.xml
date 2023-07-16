@@ -20,9 +20,9 @@
         android:paddingVertical="8dp">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/game_IMG_main"
+            android:id="@+id/movie_IMG_main"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/ic_launcher_background" />
 
@@ -103,6 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:layout_gravity="center"
             android:orientation="horizontal">
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/movie_BTN_no"

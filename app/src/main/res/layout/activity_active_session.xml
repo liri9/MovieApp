@@ -14,33 +14,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@color/lightBlue">
+        android:orientation="vertical"
+>
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/active_TXT_groupName"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
             android:gravity="start"
             android:padding="12dp"
             android:text="group name"
+            android:background="@color/lightBlue"
             android:textColor="@color/pearl"
-            android:textSize="40dp" />
+            android:textSize="20dp" />
 
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:elevation="10dp"
             app:cardCornerRadius="10dp"
             android:padding="10dp"
             android:layout_weight="50">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/tasks_LST_tasks"
+                android:id="@+id/movie_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:listitem="@layout/movie_card" />
-            <?xml version="1.0" encoding="utf-8"?>
 
 
         </com.google.android.material.card.MaterialCardView>

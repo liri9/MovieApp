@@ -10,12 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.movieapp.DBManager;
 import com.example.movieapp.init.AppManager;
-import com.example.movieapp.init.MyApp;
 import com.example.movieapp.init.MyRTFB;
 import com.example.movieapp.R;
-import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.User;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
@@ -27,14 +24,11 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegistrationActivity extends AppCompatActivity {
 
     private MaterialButton register_BTN;
     private EditText register_EDT_name;
@@ -47,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_registration);
         findViews();
         initViews();
 
@@ -65,12 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         register_BTN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 registerUser();
                 openApp();
             }
         });
-        // register_BTN.setEnabled(false);
 
     }
 
@@ -89,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void registerUser() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        //   register_BTN.setEnabled(true);
         if (firebaseUser != null) {
             User user = new User()
                     .setId(firebaseUser.getUid())
@@ -100,9 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (chipsCategories.get(i).isChecked()) {
                     user.addCategory(chipsCategories.get(i).getText().toString());
                 }
-
             }
-
             AppManager.getInstance().setLoggedIn(user);
             MyRTFB.saveNewUser(user);
         } else {
@@ -147,7 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
 
 
-
         signInLauncher.launch(signInIntent);
     }
 
@@ -158,26 +146,34 @@ public class LoginActivity extends AppCompatActivity {
 //        for (Movie movie:allMovies){
 //            movieRef.child(movie.getName()).setValue(movie);
 //        }
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+            startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
+            finish();
+
     }
+
 
     private void checkIfUserInMyServer() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         assert firebaseUser != null;
         MyRTFB.getUserData(firebaseUser.getUid(), user -> {
             if (user == null) {
-                registerUser();
+                Log.d("checkuser - null", "hi");
+                //  registerUser();
             } else if (user.getName() == null || user.getUserName() == null || user.getName().isEmpty() || user.getUserName().isEmpty()) {
-                Log.d("Username and name is empty", "empty f");
-                registerUser();
+                //  registerUser();
+                Log.d("checkuser - 2", "hi");
+
+
             } else {
-                Toast.makeText(LoginActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
+                Log.d("checkuser - else", "hi");
+
+                Toast.makeText(RegistrationActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
                 AppManager.getInstance().setLoggedIn(user);
                 openApp();
             }
         });
     }
+
 
     private void showSnackbar(String message) {
         Snackbar

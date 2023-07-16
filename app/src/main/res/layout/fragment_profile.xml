@@ -53,6 +53,7 @@
                     android:layout_weight="1"
                     android:textSize="14dp"
                     app:iconSize="12dp"
+                    android:visibility="invisible"
                     android:backgroundTint="@color/darkBlue"
                     android:text="Edit"
                     app:icon="@drawable/baseline_edit_24"/>

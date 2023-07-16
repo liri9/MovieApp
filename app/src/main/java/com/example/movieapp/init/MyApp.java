@@ -9,8 +9,6 @@ public class MyApp extends Application {
 
         MySignal.init(this);
         AppManager.init();
-//        MySP.init(this);
-//        MyGPS.init(this);
-//        GameManager.init();
+        Imager.initHelper(this);
     }
 }
