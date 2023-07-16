@@ -1,5 +1,6 @@
 package com.example.movieapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieapp.R;
-import com.example.movieapp.adapters.Adapter_Group_List;
+import com.example.movieapp.activities.ActiveSessionActivity;
 import com.example.movieapp.adapters.Adapter_Session_List;
 import com.example.movieapp.databinding.FragmentSessionsBinding;
 import com.example.movieapp.init.AppManager;
@@ -28,9 +29,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SessionsFragment extends Fragment {
+public class SessionsFragment extends Fragment implements Adapter_Session_List.OnItemClickListener {
     private ArrayList<Session> mySessions = new ArrayList<>();
     private RecyclerView sess_LST_groups;
+    private int currentPosition;
 
     public SessionsFragment() {
     }
@@ -58,7 +60,7 @@ public class SessionsFragment extends Fragment {
     }
 
     private void initViews() {
-        //todo when pressing on a group
+        adapter.setOnItemClickListener(this);
     }
 
     private void updateList(View view, ArrayList<Session> mySessions) {
@@ -120,6 +122,14 @@ public class SessionsFragment extends Fragment {
         sess_LST_groups.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         sess_LST_groups.setHasFixedSize(true);
         sess_LST_groups.setAdapter(adapter);
+
+    }
+
+    public void onItemClick(int position) {
+        Session clickedSession = mySessions.get(position);
+        AppManager.getInstance().setCurrentSession(clickedSession);
+        AppManager.getInstance().setCurentGroup(clickedSession.getGroup());
+        startActivity(new Intent(getActivity(), ActiveSessionActivity.class));
 
     }
 }

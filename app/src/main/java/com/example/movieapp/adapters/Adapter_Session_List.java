@@ -34,15 +34,15 @@ public class Adapter_Session_List extends RecyclerView.Adapter<Adapter_Session_L
 
     @NonNull
     @Override
-    public Adapter_Session_List.SessionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+    public SessionViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.group_list_fragment, viewGroup, false);
-        return new Adapter_Session_List.SessionViewHolder(view);
+        return new SessionViewHolder(view);
     }
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
-    public void setOnItemClickListener(Adapter_Session_List.OnItemClickListener listener) {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
