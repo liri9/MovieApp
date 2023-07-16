@@ -21,6 +21,20 @@ import java.util.HashMap;
 public class MyRTFB {
 
 
+    public static void finishSession(Session session, Group group) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("GROUPS").child(group.getId()).child("SESSIONS")
+                        .child(session.getId()).child("isDone");
+        ref.setValue(true);
+    }
+
+    public static void removeUserFromGroup(User user, Group group) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference groupRef = database.getReference("GROUPS").child("userIDs").child(user.getId());
+        groupRef.removeValue();
+        DatabaseReference userRef = database.getReference("USERS").child(user.getId()).child("GROUPS").child(group.getId());
+        userRef.removeValue();
+    }
 
     public interface CB_MoviesArray {
         void data(ArrayList<Movie> movie);
@@ -244,12 +258,12 @@ public class MyRTFB {
 
     public static void addLikeToMovie(String groupId, String userId, String movieName, Session currentSess, HashMap<String, Integer> likedMovies) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Log.d("hello", "this is 7");
-
         DatabaseReference groupRef = database.getReference("GROUPS").child(groupId)
                 .child("SESSIONS").child(currentSess.getId()).child("USERS")
                 .child(userId).child("LIKED").child(movieName);
-
+        DatabaseReference sessRef = database.getReference("GROUPS").child(groupId)
+                .child("SESSIONS").child(currentSess.getId());
+        sessRef.child("LIKED").setValue(likedMovies);
 
         groupRef.setValue(movieName);
         Log.d("hello", "this is 8");

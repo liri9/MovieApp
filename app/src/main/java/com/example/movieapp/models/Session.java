@@ -2,6 +2,7 @@ package com.example.movieapp.models;
 
 import android.util.Log;
 
+import com.example.movieapp.init.AppManager;
 import com.example.movieapp.init.MyRTFB;
 
 import java.util.ArrayList;
@@ -118,12 +119,12 @@ public class Session {
         this.userList = group.getUsers();
     }
 
-    public String checkMatch() {
-        String key = getKeyByValue(likedMovies, size);
-        if (key != null) {
-            matches.add(key);
+    public Boolean checkMatch(String name) {
+        Boolean key = getKeyByValue(likedMovies, size,name);
+        if (key) {
+            matches.add(name);
             updateMatchFB();
-            return key;
+            return true;
         } else return null;
     }
 
@@ -135,27 +136,26 @@ public class Session {
         //todo
     }
 
-    public static String getKeyByValue(HashMap<String, Integer> hashMap, int x) {
+    public static Boolean getKeyByValue(HashMap<String, Integer> hashMap, int x, String name) {
         for (Map.Entry<String, Integer> entry : hashMap.entrySet()) {
-            if (entry.getValue() == x) {
-                return entry.getKey();
+            if (entry.getValue() >= x && entry.getKey().equals(name)) {
+                return true;
             }
         }
-        return null;  // Value not found in the HashMap
+        return false;  // Value not found in the HashMap
     }
 
-    public void addLike(User user, Movie movie) {
+    public Boolean addLike(User user, Movie movie) {
         if (likedMovies != null) {
             if (!likedMovies.containsKey(movie.getName())) {
                 likedMovies.put(movie.getName(), 1);
             } else {
-                int like = likedMovies.get(movie.getName());
+                Integer like = likedMovies.get(movie.getName());
                 likedMovies.put(movie.getName(), like + 1);
             }
         } else likedMovies.put(movie.getName(), 1);
         MyRTFB.addLikeToMovie(group.getId(), user.getId(), movie.getName(), this, likedMovies);
-        checkMatch();
-
+        return checkMatch(movie.getName());
     }
 
     public HashMap sessionAsHashMap() {
@@ -174,5 +174,11 @@ public class Session {
         Log.d("users in here", userList.toString());
         Log.d("the hashhh ", sessionAsHashmap.toString());
         return sessionAsHashmap;
+    }
+
+    public void finish() {
+        AppManager.getInstance().setCurrentSession(null);
+        AppManager.getInstance().setCurentGroup(null);
+        MyRTFB.finishSession(this, group);
     }
 }

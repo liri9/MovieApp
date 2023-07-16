@@ -1,5 +1,6 @@
 package com.example.movieapp.adapters;
 
+import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,7 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
     private MaterialCardView movie;
     private Session currentSess = AppManager.getInstance().getCurrentSession();
     private int currentPosition = 0;
+    private OnActionListener listener;
 
 
     public Adapter_MovieCard(List<Movie> moviesList) {
@@ -50,15 +52,20 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Movie movie = getItem(position);
         holder.movie_LBL_title.setText(movie.getName());
-        float rate =(float) movie.getRating();
-        if (rate >5) rate/=2;
-        holder.movie_RTG_rating.setRating(rate);;
+        float rate = (float) movie.getRating();
+        if (rate > 5) rate /= 2;
+        holder.movie_RTG_rating.setRating(rate);
+        ;
         holder.movie_LBL_genre.setText(movie.getCategory().toString());
-        holder.movie_LBL_year.setText("" +movie.getYear());
+        holder.movie_LBL_year.setText("" + movie.getYear());
         //holder.movie_LBL_description.setText(movie.getDescription());;
-        holder.movie_LBL_description.setText("");;
+        holder.movie_LBL_description.setText("");
+        ;
         Imager.me().imageCrop(holder.movie_IMG_main, movie.getImage());
-
+        if (position == getItemCount() - 1) {
+            AppManager.getInstance().getCurrentSession().finish();
+            ((Activity) holder.itemView.getContext()).finish();
+        }
         if (position == currentPosition) {
             // Current card being shown
             holder.itemView.setVisibility(View.VISIBLE);
@@ -74,6 +81,7 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
     }
 
     private Movie getItem(int position) {
+
         return movies.get(position);
     }
 
@@ -100,8 +108,6 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
             movie_BTN_yes = itemView.findViewById(R.id.movie_BTN_yes);
 
 
-
-
             movie_BTN_no.setOnClickListener(view -> {
                 if (currentPosition >= 0 && currentPosition < movies.size()) {
                     movies.remove(currentPosition);
@@ -111,10 +117,7 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
             });
             movie_BTN_yes.setOnClickListener(view -> {
                 if (currentPosition >= 0 && currentPosition < movies.size()) {
-                    Log.d("hello", "this is 1");
                     updateFBLiked();
-                    Log.d("hello", "this is 2");
-
                     movies.remove(currentPosition);
                     notifyItemRemoved(currentPosition);
                     notifyItemChanged(currentPosition);
@@ -122,13 +125,28 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
             });
         }
 
-        public void updateFBLiked(){
-            Log.d("hello", "this is 3");
-
-            currentSess.addLike(AppManager.getInstance().getLoggedIn(),getItem(currentPosition));
-            Log.d("hello", "this is 4");
-
+        public void updateFBLiked() {
+            Boolean bool = currentSess.addLike(AppManager.getInstance().getLoggedIn(), getItem(currentPosition));
+            if (bool) {
+                match(getItem(currentPosition));
+            }
         }
 
+        private void match(Movie item) {
+            Log.d("hello", "this is 1");
+            if (listener != null) {
+                listener.onMatch(item);
+            }
+        }
+
+    }
+
+    public interface OnActionListener {
+
+        void onMatch(Movie item);
+    }
+
+    public void setOnActionListener(OnActionListener listener) {
+        this.listener = listener;
     }
 }

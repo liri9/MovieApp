@@ -104,8 +104,6 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Group group = snapshot.getValue(Group.class);
                             group.setUserIDs((ArrayList<String>)snapshot.child("userIDs").getValue());
-//                            Log.d("hiiiiii",snapshot.child("userIDs").getValue().getClass().toString());
-
                             myGroups.add(group);
                             user.addGroup(group);
                             initList(view);
@@ -188,7 +186,8 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
             main_CRD_Group.setVisibility(View.INVISIBLE);
         });
         mainGroup_BTN_exitGroup.setOnClickListener(v -> {
-            //todo
+            main_CRD_Group.setVisibility(View.INVISIBLE);
+            MyRTFB.removeUserFromGroup(user,myGroups.get(currentPosition));
             user.removeFromGroup(myGroups.get(currentPosition));
             myGroups.get(currentPosition).removeUser(user);
         });

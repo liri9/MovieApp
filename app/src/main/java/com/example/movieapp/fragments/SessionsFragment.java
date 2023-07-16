@@ -25,14 +25,17 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SessionsFragment extends Fragment implements Adapter_Session_List.OnItemClickListener {
     private ArrayList<Session> mySessions = new ArrayList<>();
     private RecyclerView sess_LST_groups;
     private int currentPosition;
+    private boolean checked = false;
 
     public SessionsFragment() {
     }
@@ -68,6 +71,7 @@ public class SessionsFragment extends Fragment implements Adapter_Session_List.O
     }
 
     private void setSessionListFromDB(View view) {
+//            if (AppManager.getInstance().getLoggedIn()==null) return;
         User user = AppManager.getInstance().getLoggedIn();
         ArrayList<Group> myGroups = user.getGroups();
 
@@ -88,16 +92,26 @@ public class SessionsFragment extends Fragment implements Adapter_Session_List.O
                                     for (DataSnapshot snaps : snapshot.getChildren()) {
                                         if (snaps.hasChild("isDone")) {
                                             if (!snaps.child("isDone").getValue(Boolean.class)) {
-
                                                 Session session = snaps.getValue(Session.class);
                                                 session.setGroup(group);
+                                                session.setSize((int) snap.child("userIDs").getChildrenCount());
+                                                DataSnapshot likedSnapshot = snaps.child("LIKED");
+                                                if (likedSnapshot.exists()) {
+                                                    HashMap<String, Integer> likedMap = new HashMap<>();
+                                                    for (DataSnapshot likedItemSnapshot : likedSnapshot.getChildren()) {
+                                                        String movieName = likedItemSnapshot.getKey();
+                                                        int numberOfLikes = likedItemSnapshot.getValue(Integer.class);
+                                                        likedMap.put(movieName, numberOfLikes);
+                                                    }
+                                                    session.setLikedMovies(likedMap);
+                                                }
                                                 mySessions.add(session);
                                                 initList(view);
                                             }
                                         }
-
                                     }
                                 }
+
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
                                 }
@@ -106,11 +120,11 @@ public class SessionsFragment extends Fragment implements Adapter_Session_List.O
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-
     }
 
 

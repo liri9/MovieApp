@@ -1,5 +1,7 @@
 package com.example.movieapp.init;
 
+import android.util.Log;
+
 import com.example.movieapp.DBManager;
 import com.example.movieapp.models.Group;
 import com.example.movieapp.models.Session;
@@ -33,6 +35,8 @@ public class AppManager {
     }
 
     public User getLoggedIn() {
+        Log.d("this is 3","hi");
+
         return loggedIn;
     }
 

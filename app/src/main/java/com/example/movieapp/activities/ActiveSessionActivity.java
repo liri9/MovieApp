@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -38,13 +39,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ActiveSessionActivity extends AppCompatActivity {
+public class ActiveSessionActivity extends AppCompatActivity implements Adapter_MovieCard.OnActionListener{
 
     private RecyclerView movie_card_view;
     private MaterialTextView active_TXT_groupName;
+    private TextView match_crd_lbl;
+    private MaterialCardView match_crd;
+    private MaterialButton match_BTN_yes, match_BTN_no;
     private ArrayList<Movie> movieList = new ArrayList<Movie>();
     private Adapter_MovieCard adapter = new Adapter_MovieCard(movieList);
 
@@ -67,7 +73,6 @@ public class ActiveSessionActivity extends AppCompatActivity {
         movie_card_view.setLayoutManager(new LinearLayoutManager(this));
         movie_card_view.setHasFixedSize(true);
         movie_card_view.setAdapter(adapter);
-        Log.d("movies init", movieList.toString());
 
     }
 
@@ -82,11 +87,12 @@ public class ActiveSessionActivity extends AppCompatActivity {
                     Movie movie = child.getValue(Movie.class);
                     movieList.add(movie);
                 }
-               // Log.d("all movies", movieList.toString());
+                // Log.d("all movies", movieList.toString());
 
                 Collections.shuffle(movieList);
                 initList();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
@@ -95,12 +101,26 @@ public class ActiveSessionActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        active_TXT_groupName.setText(AppManager.getInstance(). getCurentGroup().getName());
+        active_TXT_groupName.setText(AppManager.getInstance().getCurentGroup().getName());
+        adapter.setOnActionListener(this);
+
+        match_BTN_yes.setOnClickListener(v->{
+            match_crd.setVisibility(View.INVISIBLE);
+        });
+
+        match_BTN_no.setOnClickListener(v->{
+            AppManager.getInstance().getCurrentSession().finish();
+            finish();
+        });
     }
 
     private void findViews() {
         active_TXT_groupName = findViewById(R.id.active_TXT_groupName);
         movie_card_view = findViewById(R.id.movie_card_view);
+        match_crd_lbl = findViewById(R.id.match_crd_lbl);
+        match_crd = findViewById(R.id.match_crd);
+        match_BTN_yes = findViewById(R.id.match_BTN_yes);
+        match_BTN_no = findViewById(R.id.match_BTN_no);
     }
 
 
@@ -109,5 +129,11 @@ public class ActiveSessionActivity extends AppCompatActivity {
                 .make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .setAction("OK", null)
                 .show();
+    }
+
+    @Override
+    public void onMatch(Movie item) {
+        match_crd.setVisibility(View.VISIBLE);
+        match_crd_lbl.setText(item.getName());
     }
 }
