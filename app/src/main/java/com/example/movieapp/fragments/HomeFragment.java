@@ -11,18 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.movieapp.R;
 import com.example.movieapp.adapters.Adapter_Group_List;
-import com.example.movieapp.adapters.Adapter_MovieCard;
 import com.example.movieapp.databinding.FragmentHomeBinding;
 import com.example.movieapp.init.AppManager;
 import com.example.movieapp.models.Group;
-import com.example.movieapp.models.Movie;
 import com.example.movieapp.models.User;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,15 +29,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemClickListener {
 
     private RecyclerView main_LST_groups;
     private EditText main_EDT_grpName, main_EDT_userName;
-    private MaterialButton main_BTN_addGroup, main_BTN_addUser, main_BTN_exit;
-    private CardView main_CRD_newGroup;
+    private MaterialButton main_BTN_addGroup, main_BTN_addUser,
+            main_BTN_exit, mainGroup_BTN_exit, mainGroup_BTN_exitGroup, mainGroup_BTN_newSession;
+    private MaterialCardView main_CRD_newGroup, main_CRD_Group;
     private String groupName;
+    private MaterialTextView mainGroup_LBL_grpName;
+
+    private Fragment_List fragment_list;
+    //users_LST
+
     private ArrayList<Group> myGroups = new ArrayList<>();
     private ArrayList<String> userNames = new ArrayList<>();
     private User user = AppManager.getInstance().getLoggedIn();
@@ -127,14 +131,17 @@ public class HomeFragment extends Fragment {
             main_CRD_newGroup.setVisibility(View.VISIBLE);
         });
 
+        adapter.setOnItemClickListener(this);
+
 
         main_BTN_exit.setOnClickListener(v -> {
             main_CRD_newGroup.setVisibility(View.INVISIBLE);
             main_EDT_grpName.getText().clear();
+            //todo checking if empty
             Group group = new Group("")
                     .setName(groupName)
                     .setUsersToDB(userNames);
-            Log.d("usernames",userNames.get(0));
+            Log.d("usernames", userNames.get(0));
             group.updateGroupInFB();
         });
 
@@ -148,6 +155,13 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void onItemClick(int position) {
+        main_CRD_Group.setVisibility(View.VISIBLE);
+        Group clickedGroup = myGroups.get(position);
+        mainGroup_LBL_grpName.setText(clickedGroup.getName());
+
+    }
+
     private void findViews(View view) {
         main_BTN_addGroup = view.findViewById(R.id.main_BTN_addGroup);
         main_LST_groups = view.findViewById(R.id.main_LST_groups);
@@ -156,5 +170,10 @@ public class HomeFragment extends Fragment {
         main_EDT_grpName = view.findViewById(R.id.main_EDT_grpName);
         main_CRD_newGroup = view.findViewById(R.id.main_CRD_newGroup);
         main_BTN_exit = view.findViewById(R.id.main_BTN_exit);
+        main_CRD_Group = view.findViewById(R.id.main_CRD_Group);
+        mainGroup_BTN_exit = view.findViewById(R.id.mainGroup_BTN_exit);
+        mainGroup_LBL_grpName = view.findViewById(R.id.mainGroup_LBL_grpName);
+        mainGroup_BTN_exitGroup = view.findViewById(R.id.mainGroup_BTN_exitGroup);
+        mainGroup_BTN_newSession = view.findViewById(R.id.mainGroup_BTN_newSession);
     }
 }

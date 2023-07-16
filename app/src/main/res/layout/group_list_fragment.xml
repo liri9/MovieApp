@@ -8,6 +8,8 @@
     android:layout_margin="12dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="10dp"
+    android:clickable="true"
+    android:id="@+id/group_list_fragment_crd"
     app:strokeWidth="0dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat

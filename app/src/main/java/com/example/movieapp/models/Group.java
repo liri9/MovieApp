@@ -13,7 +13,7 @@ public class Group {
     private String id;
     private String name;
     private ArrayList<User> users=new ArrayList<>();;
-    private ArrayList<String> usersIds;
+    private ArrayList<String> usersIds = new ArrayList<>();
     private int size;
 
 
@@ -22,7 +22,7 @@ public class Group {
         this.users = users;
     }
 
-public Group(){}
+    public Group(){}
 
     public Group(String str) {
 //        id = UUID.randomUUID().toString();
@@ -36,14 +36,11 @@ public Group(){}
     }
 
     public String getId() {
-        Log.d("getidmethod before", "try'");
         if (id == null){
             id = UUID.randomUUID().toString();
             users.add(AppManager.getInstance().getLoggedIn());
             AppManager.getInstance().getLoggedIn().addGroupToFB(this);
         }
-        Log.d("getidmethod after", "try'");
-
         return id;
     }
 
@@ -69,11 +66,12 @@ public Group(){}
     }
 
     public Group setUsersToDB(ArrayList<String> names) {
+        Log.d("user adding by name",names.toString());
         for (String userName : names) {
             MyRTFB.getUserByUserName(userName, user -> {
-                Log.d("user adding by name",user.userAsHashmap().toString());
+                Log.d("user adding by name 11",user.userAsHashmap().toString());
                 if (user != null) {
-
+                    Log.d("user adding by name 12",user.userAsHashmap().toString());
                     addUser(user);
                     user.addGroupToFB(this);
                     updateGroupInFB();
@@ -89,6 +87,7 @@ public Group(){}
 
     public void addUser(User user) {
         users.add(user);
+        usersIds.add((user.getId()));
     }
 
     public void removeUser(User user) {
@@ -96,6 +95,8 @@ public Group(){}
     }
 
     public void updateGroupInFB (){
+        Log.d("user adding by name 1",usersIds.size()+"");
+
         MyRTFB.saveNewGroup(this);
     }
     public HashMap<String, Object> groupAsHashmap() {

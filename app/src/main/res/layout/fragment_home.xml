@@ -79,7 +79,7 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/main_CRD_newGroup"
         android:layout_width="300dp"
         android:layout_height="250dp"
@@ -129,16 +129,16 @@
                 app:iconGravity="end|start" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/main_CRD_Group"
         android:layout_width="match_parent"
         android:layout_height="450dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible"
         android:layout_margin="20dp"
+        android:visibility="invisible"
         app:cardCornerRadius="30dp"
         app:cardElevation="10dp">
 
@@ -233,7 +233,7 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 
 </RelativeLayout>

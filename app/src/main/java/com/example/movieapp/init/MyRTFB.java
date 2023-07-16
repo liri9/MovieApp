@@ -118,7 +118,11 @@ public class MyRTFB {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                             User user = userSnapshot.getValue(User.class);
-                            if (user.getUserName().equals(userName)) {
+                            boolean check= user.getUserName().trim().equals(userName.trim());
+//                            String lettersBeforeSpace = userName.substring(0, userName.indexOf(" "));
+                            if (check) {
+                                Log.d("success???", user.userAsHashmap().toString());
+
                                 cb_user.data(user);
                             }
                         }

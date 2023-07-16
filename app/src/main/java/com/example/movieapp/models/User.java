@@ -118,6 +118,7 @@ public class User {
     }
 
     public void addGroupToFB(Group group) {
+        Log.d("user adding by name 1 2",userName );
 
         groups.add(group);
         groupsID.add(group.getId());
