@@ -87,7 +87,9 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
 
     private void setGroupListFromDB(View view) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference usersRef = database.getReference("USERS").child(user.getId()).child("GROUPS");
+        DatabaseReference usersRef = database.getReference("USERS")
+                .child(user.getId()).
+                child("GROUPS");
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

@@ -16,6 +16,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MyRTFB {
 
@@ -246,11 +247,32 @@ public class MyRTFB {
         DatabaseReference gamesRef = database.getReference("GAMES");
         gamesRef.child(id).child("liked").setValue(value);
     }
+    public static void addLikeToMovie(String groupId, String userId, String movieName, Session currentSess, HashMap<String, Integer> likedMovies) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        Log.d("hello", "this is 7");
+
+        DatabaseReference groupRef = database.getReference("GROUPS").child(groupId)
+                .child("SESSIONS").child(currentSess.getId()).child("USERS")
+                .child(userId).child("LIKED").child(movieName);
+
+
+        groupRef.setValue(movieName);
+        Log.d("hello", "this is 8");
+
+    }
 
 
     public static void saveNewSession(Group group, Session currentSess) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference groupRef = database.getReference("GROUPS").child(group.getId()).child("SESSIONS");
-
+        DatabaseReference groupRef = database.getReference("GROUPS").child(group.getId()).child("SESSIONS").child(currentSess.getId());
+        groupRef.setValue(currentSess.sessionAsHashMap());
     }
+
+    public static void updateMatch(ArrayList<String> matches, String sessionID, String groupID) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference groupRef = database.getReference("GROUPS")
+                .child(groupID).child("SESSIONS").child(sessionID).child("MATCHES");
+        groupRef.setValue(matches);
+    }
+
 }

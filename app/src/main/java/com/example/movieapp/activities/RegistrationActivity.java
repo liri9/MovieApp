@@ -169,6 +169,8 @@ public class RegistrationActivity extends AppCompatActivity {
 
                 Toast.makeText(RegistrationActivity.this, "Welcome back " + user.getName(), Toast.LENGTH_LONG).show();
                 AppManager.getInstance().setLoggedIn(user);
+                Log.d(AppManager.getInstance().getLoggedIn().getName(),"app manager" );
+                Log.d(user.getName(),"bo app manager" );
                 openApp();
             }
         });

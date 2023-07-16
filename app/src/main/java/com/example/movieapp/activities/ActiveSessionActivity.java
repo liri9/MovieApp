@@ -82,7 +82,7 @@ public class ActiveSessionActivity extends AppCompatActivity {
                     Movie movie = child.getValue(Movie.class);
                     movieList.add(movie);
                 }
-                Log.d("all movies", movieList.toString());
+               // Log.d("all movies", movieList.toString());
 
                 Collections.shuffle(movieList);
                 initList();
@@ -95,7 +95,7 @@ public class ActiveSessionActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-
+        active_TXT_groupName.setText(AppManager.getInstance(). getCurentGroup().getName());
     }
 
     private void findViews() {

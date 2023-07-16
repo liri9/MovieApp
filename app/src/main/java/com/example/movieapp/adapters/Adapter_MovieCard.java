@@ -1,5 +1,6 @@
 package com.example.movieapp.adapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,11 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.movieapp.init.AppManager;
 import com.example.movieapp.init.Imager;
 import com.example.movieapp.R;
 import com.example.movieapp.models.Movie;
+import com.example.movieapp.models.Session;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textview.MaterialTextView;
@@ -22,6 +25,7 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
 
     private List<Movie> movies;
     private MaterialCardView movie;
+    private Session currentSess = AppManager.getInstance().getCurrentSession();
     private int currentPosition = 0;
 
 
@@ -107,6 +111,10 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
             });
             movie_BTN_yes.setOnClickListener(view -> {
                 if (currentPosition >= 0 && currentPosition < movies.size()) {
+                    Log.d("hello", "this is 1");
+                    updateFBLiked();
+                    Log.d("hello", "this is 2");
+
                     movies.remove(currentPosition);
                     notifyItemRemoved(currentPosition);
                     notifyItemChanged(currentPosition);
@@ -115,6 +123,10 @@ public class Adapter_MovieCard extends RecyclerView.Adapter<Adapter_MovieCard.Ev
         }
 
         public void updateFBLiked(){
+            Log.d("hello", "this is 3");
+
+            currentSess.addLike(AppManager.getInstance().getLoggedIn(),getItem(currentPosition));
+            Log.d("hello", "this is 4");
 
         }
 
