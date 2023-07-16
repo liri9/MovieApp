@@ -242,11 +242,6 @@ public class MyRTFB {
         });
     }
 
-    public static void updateGameLike(String id, boolean value) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference gamesRef = database.getReference("GAMES");
-        gamesRef.child(id).child("liked").setValue(value);
-    }
     public static void addLikeToMovie(String groupId, String userId, String movieName, Session currentSess, HashMap<String, Integer> likedMovies) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Log.d("hello", "this is 7");

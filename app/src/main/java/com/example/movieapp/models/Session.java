@@ -20,14 +20,74 @@ public class Session {
     private HashMap<String, Object> users = new HashMap<String, Object>();
     private HashMap<String, Integer> likedMovies = new HashMap<String, Integer>();
     private ArrayList<String> matches = new ArrayList<>();
-    ;
+    private boolean isDone = false;
 
+
+    public boolean isDone() {
+        return isDone;
+    }
+
+    public void setDone(boolean done) {
+        isDone = done;
+    }
 
     public Session(Group group) {
         id = UUID.randomUUID().toString();
         this.group = group;
         size = group.getSize();
         setUserList();
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public void setUserList(ArrayList<User> userList) {
+        this.userList = userList;
+    }
+
+    public HashMap<String, Object> getSessionAsHashmap() {
+        return sessionAsHashmap;
+    }
+
+    public void setSessionAsHashmap(HashMap<String, Object> sessionAsHashmap) {
+        this.sessionAsHashmap = sessionAsHashmap;
+    }
+
+    public HashMap<String, Object> getUsers() {
+        return users;
+    }
+
+    public void setUsers(HashMap<String, Object> users) {
+        this.users = users;
+    }
+
+    public HashMap<String, Integer> getLikedMovies() {
+        return likedMovies;
+    }
+
+    public void setLikedMovies(HashMap<String, Integer> likedMovies) {
+        this.likedMovies = likedMovies;
+    }
+
+    public ArrayList<String> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(ArrayList<String> matches) {
+        this.matches = matches;
     }
 
     public Session() {
@@ -59,20 +119,19 @@ public class Session {
     }
 
     public String checkMatch() {
-        String key = getKeyByValue(likedMovies,size);
-        if (key!=null){
+        String key = getKeyByValue(likedMovies, size);
+        if (key != null) {
             matches.add(key);
             updateMatchFB();
             return key;
-        }
-        else return null;
+        } else return null;
     }
 
     private void updateMatchFB() {
         MyRTFB.updateMatch(matches, id, group.getId());
     }
 
-    private void finishSession(){
+    private void finishSession() {
         //todo
     }
 
@@ -84,6 +143,7 @@ public class Session {
         }
         return null;  // Value not found in the HashMap
     }
+
     public void addLike(User user, Movie movie) {
         if (likedMovies != null) {
             if (!likedMovies.containsKey(movie.getName())) {
@@ -93,9 +153,7 @@ public class Session {
                 likedMovies.put(movie.getName(), like + 1);
             }
         } else likedMovies.put(movie.getName(), 1);
-        Log.d("hello", "this is 5");
         MyRTFB.addLikeToMovie(group.getId(), user.getId(), movie.getName(), this, likedMovies);
-        Log.d("hello", "this is 6");
         checkMatch();
 
     }

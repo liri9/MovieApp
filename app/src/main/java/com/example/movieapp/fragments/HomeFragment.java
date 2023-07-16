@@ -83,6 +83,8 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
     }
 
     private void updateList(View view, ArrayList<Group> myGroups) {
+        adapter.updateList(myGroups);
+
     }
 
     private void setGroupListFromDB(View view) {
@@ -106,7 +108,6 @@ public class HomeFragment extends Fragment implements Adapter_Group_List.OnItemC
 
                             myGroups.add(group);
                             user.addGroup(group);
-                            Log.d("goupie",group.toString());
                             initList(view);
                         }
 
